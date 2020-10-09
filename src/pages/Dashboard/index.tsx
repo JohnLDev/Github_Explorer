@@ -6,7 +6,7 @@ import api from '../../services/api'
 
 import logoImg from '../../assets/logo.svg'
 
-import { Title, Form, Repositories, Error } from './styles'
+import { Title, Form, Repositories, Error, RemoveButton } from './styles'
 interface Repository {
   full_name: string
   description: string
@@ -55,6 +55,15 @@ const Dashboard: React.FC = () => {
       setInputError('Erro na busca por esse repositório')
     }
   }
+
+  function handleRemoveRepository(full_name: string): void {
+    const repository = repositories.find(
+      repository => repository.full_name === full_name,
+    )
+    const newRepositories = repositories.filter(rep => rep !== repository)
+    setRepositories(newRepositories)
+  }
+
   return (
     <>
       <img src={logoImg} alt='GithubExplorer' />
@@ -62,7 +71,7 @@ const Dashboard: React.FC = () => {
       <Form hasError={!!inputError} onSubmit={handleAddRepository}>
         <input
           value={newRepo}
-          onChange={e => setNewRepo(e.target.value)}
+          onChange={({ target: { value } }) => setNewRepo(value)}
           placeholder='Digite o nome do repositório : usuario/repositório'
         />
         <button type='submit'>Pesquisar</button>
@@ -70,21 +79,28 @@ const Dashboard: React.FC = () => {
       {inputError && <Error>{inputError}</Error>}
       <Repositories>
         {repositories.map(repository => (
-          <Link
-            key={repository.full_name}
-            to={`/repositories/${repository.full_name}`}
-          >
-            <img
-              src={repository.owner.avatar_url}
-              alt={repository.owner.login}
-            />
+          <>
+            <Link
+              key={repository.full_name}
+              to={`/repositories/${repository.full_name}`}
+            >
+              <img
+                src={repository.owner.avatar_url}
+                alt={repository.owner.login}
+              />
 
-            <div>
-              <strong>{repository.full_name}</strong>
-              <p>{repository.description}</p>
-            </div>
-            <FiChevronRight size={20} />
-          </Link>
+              <div>
+                <strong>{repository.full_name}</strong>
+                <p>{repository.description}</p>
+              </div>
+              <FiChevronRight size={20} />
+            </Link>
+            <RemoveButton
+              onClick={() => handleRemoveRepository(repository.full_name)}
+            >
+              Remover
+            </RemoveButton>
+          </>
         ))}
       </Repositories>
     </>

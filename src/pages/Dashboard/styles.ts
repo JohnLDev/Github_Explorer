@@ -65,8 +65,8 @@ export const Repositories = styled.div`
   max-width: 700px;
   a {
     background: #fff;
-    border-radius: 5px;
-    width: 100%;
+    border-radius: 5px 5px 0 0;
+    width: 90%;
     padding: 24px;
     display: block;
     text-decoration: none;
@@ -104,5 +104,26 @@ export const Repositories = styled.div`
       margin-left: auto;
       color: #cbc8d6;
     }
+  }
+`
+
+export const RemoveButton = styled.button`
+  background: #dcdcdc;
+  border: 0;
+  border-radius: 0 0 5px 5px;
+  width: 90%;
+  height: 30px;
+
+  color: #363636;
+  font-weight: bold;
+  text-justify: center;
+
+  display: block;
+  text-decoration: none;
+  transition: 0.2s;
+  margin-bottom: 20px;
+
+  &:hover {
+    background: #d3d3d3;
   }
 `
